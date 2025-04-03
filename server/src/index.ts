@@ -1,25 +1,28 @@
-import express from 'express'
-import { AppDataSource } from './DataSource'
-import { userController } from './modules/user/userController'
-import { authController } from './modules/auth/authController'
-import cors from 'cors'
+import express from 'express';
+import 'dotenv/config';
+import { AppDataSource } from './DataSource';
+import rebrickableRoutes from './modules/rebrickable/rebrickable.routes';
+import productRoutes from "./modules/products/entity/product.routes";
+import 'dotenv/config';
 
-const app = express()
-app.use(cors())
-app.use(express.json())
-app.get('/', (req, res) => {
-  res.send('Plop!')
-})
-app.use('/users', userController)
-app.use('/auth', authController)
+async function bootstrap() {
+  await AppDataSource.initialize();
+  const app = express();
+  app.use(express.json());
+  app.use('/api/products', productRoutes);
 
-const port = process.env.PORT
-  ? Number(process.env.PORT)
-  : 3000
-AppDataSource.initialize().then(() => {
-  app.listen(port, () => {
-    console.log(
-      `Server started at http://localhost:${port}`,
-    )
-  })
-})
+  // Monte les routes
+  app.use('/api/rebrickable', rebrickableRoutes);
+  // app.use('/api/products', productRoutes);
+  // …
+
+  app.listen(4000, () => {
+    console.log('Server running on http://localhost:4000');
+    console.log('REBRICKABLE_API_KEY =', process.env.REBRICKABLE_API_KEY);
+
+  });
+}
+
+bootstrap().catch(err => {
+  console.error('Failed to start server', err);
+});

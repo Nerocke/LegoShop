@@ -13,7 +13,7 @@ import {
   View,
 } from "react-native";
 
-const logo = require('../resources/ort-logo.png')
+const logo = require('../resources/logo-lego.png')
 
 export const LoginScreen = () => {
   const [value, setValue] = useState("");
@@ -29,7 +29,7 @@ export const LoginScreen = () => {
             title: "Login",
           }}
         />
-        <Image style={styles.image} source={logo} />
+        <Image style={styles.image} source={logo} resizeMode="contain" />
         <TextInput
           style={styles.input}
           value={value}
@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: "center",
+    height :600,
+    width : "100%"
   },
   button: {
     borderWidth: 1,
