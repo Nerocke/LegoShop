@@ -6,6 +6,7 @@ import { CreateUser } from "./page/CreateUser";
 import { Login } from "./page/Login";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Catalog } from "./page/Catalog";
 
 export const App = () => {
   return (
@@ -24,6 +25,7 @@ export const App = () => {
           <Route path="/users" element={<Users />} />
           <Route path="/createUser" element={<CreateUser />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/catalog" element={<Catalog />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

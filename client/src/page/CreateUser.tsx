@@ -15,6 +15,7 @@ type UserForm = {
 const userFormSchema = Joi.object<UserForm>({
   login: Joi.string().required(),
   password: Joi.string().min(6).required(),
+  isAdmin: Joi.boolean().optional(),
 });
 
 export const CreateUser = () => {
@@ -28,13 +29,20 @@ export const CreateUser = () => {
 
   const navigate = useNavigate();
 
+  // ✅ IMPORTANT : try/catch et console.log pour déboguer
   const onSubmit = handleSubmit(async ({ isAdmin, login, password }) => {
-    await axios.post("http://localhost:3000/users", {
-      login,
-      password,
-      role: isAdmin ? "admin" : "user",
-    });
-    navigate("/users");
+    try {
+      console.log("submit triggered");
+      const res = await axios.post("http://localhost:3000/api/users", {
+        login,
+        password,
+        role: isAdmin ? "admin" : "user",
+      });
+      console.log("Created:", res.data);
+      navigate("/users");
+    } catch (err) {
+      console.error("Erreur création user", err);
+    }
   });
 
   return (

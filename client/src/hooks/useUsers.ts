@@ -16,7 +16,7 @@ export const useUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const data = (await axios.get("http://localhost:3000/users")).data;
+        const data = (await axios.get("http://localhost:3000/api/users")).data;
         setUsers(data);
         setError(undefined);
       } catch (error: any) {

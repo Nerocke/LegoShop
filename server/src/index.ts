@@ -1,25 +1,30 @@
 import express from 'express';
+import cors from 'cors';
 import 'dotenv/config';
 import { AppDataSource } from './DataSource';
+
 import rebrickableRoutes from './modules/rebrickable/rebrickable.routes';
-import productRoutes from "./modules/products/entity/product.routes";
-import 'dotenv/config';
+import productRoutes from './modules/products/entity/product.routes';
+import { authController } from './modules/auth/authController';
+import userRoutes from './modules/user/user.routes';
 
 async function bootstrap() {
   await AppDataSource.initialize();
   const app = express();
-  app.use(express.json());
+
+  app.use(cors());
+  app.use(express.json()); 
+
+  // Déclaration des routes
   app.use('/api/products', productRoutes);
-
-  // Monte les routes
   app.use('/api/rebrickable', rebrickableRoutes);
-  // app.use('/api/products', productRoutes);
-  // …
+  app.use('/api/auth', authController); 
+  app.use('/api/users', userRoutes);
 
-  app.listen(4000, () => {
-    console.log('Server running on http://localhost:4000');
+  const PORT = process.env.PORT || 4000;
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
     console.log('REBRICKABLE_API_KEY =', process.env.REBRICKABLE_API_KEY);
-
   });
 }
 

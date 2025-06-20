@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type FormData = {
   login: string;
@@ -18,6 +18,7 @@ const formValidation = Joi.object({
 
 export const Login = () => {
   const { setAuth } = useAuth();
+  const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
@@ -28,11 +29,16 @@ export const Login = () => {
   });
 
   const onSubmit = handleSubmit(async ({ login, password }) => {
-    const response = await axios.post("http://localhost:3000/auth/login", {
-      login,
-      password,
-    });
-    setAuth(response.data.id, response.data.token);
+    try {
+      const response = await axios.post("http://localhost:3000/api/auth/login", {
+        login,
+        password,
+      });
+      setAuth(response.data.id, response.data.token);
+      navigate("/catalog"); // ✅ redirection vers le catalogue
+    } catch (error) {
+      console.error("Erreur de connexion:", error);
+    }
   });
 
   return (
@@ -51,7 +57,7 @@ export const Login = () => {
         </label>
         <label className="input">
           <input
-            type="text"
+            type="password"
             placeholder="Password"
             className="grow"
             {...register("password")}
