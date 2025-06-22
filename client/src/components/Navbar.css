@@ -1,0 +1,37 @@
+.lego-navbar {
+    background-color: #1f1f1f;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.lego-navbar-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: #facc15;
+    text-align: center;
+}
+
+.lego-navbar-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.lego-navbar-links a {
+    padding: 0.5rem 1rem;
+    border: 2px solid #facc15;
+    border-radius: 8px;
+    color: #facc15;
+    text-decoration: none;
+    transition: background 0.3s;
+    font-weight: bold;
+}
+
+.lego-navbar-links a:hover {
+    background-color: #facc15;
+    color: black;
+}
