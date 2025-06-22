@@ -7,6 +7,8 @@ import rebrickableRoutes from './modules/rebrickable/rebrickable.routes';
 import productRoutes from './modules/products/entity/product.routes';
 import { authController } from './modules/auth/authController';
 import userRoutes from './modules/user/user.routes';
+import cartRoutes from './modules/cart/cart.routes';
+
 
 async function bootstrap() {
   await AppDataSource.initialize();
@@ -20,6 +22,8 @@ async function bootstrap() {
   app.use('/api/rebrickable', rebrickableRoutes);
   app.use('/api/auth', authController); 
   app.use('/api/users', userRoutes);
+  app.use('/api/cart', cartRoutes);
+
 
   const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => {

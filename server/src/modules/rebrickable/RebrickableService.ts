@@ -43,16 +43,16 @@ export class RebrickableService {
             ? setData.us_price
             : parseFloat(setData.us_price as string) || 0;
 
-        // 1) Récupère le repository
+
         const repo = AppDataSource.getRepository(Product);
 
-        // 2) Crée l’entité (pas de doute sur le type)
+
         const product = repo.create({
-            nom: setData.name,             // <— clé “nom” et non “name”
-            description: setData.name,     // ou setData.description si dispo
-            prix: price,                   // <— “prix” et non “price”
-            stock: 0,                      // si ton entité s’appelle bien “stock”
-            imageUrl: setData.set_img_url  // si ton entité a bien “imageUrl”
+            nom: setData.name,
+            description: setData.name,
+            prix: price,
+            stock: 0,
+            imageUrl: setData.set_img_url
         });
 
         return repo.save(product);

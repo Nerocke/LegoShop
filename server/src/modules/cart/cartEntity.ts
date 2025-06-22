@@ -13,4 +13,7 @@ export class CartItem {
 
   @Column()
   quantity: number;
+
+  @Column({ nullable: true }) // ⬅️ Ajout ici
+  set_img_url: string;
 }

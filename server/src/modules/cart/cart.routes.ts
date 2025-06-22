@@ -1,61 +1,31 @@
-import { Router, Request, Response } from "express";
-import { cartRepository } from "./cartRepository";
-import { userRepository } from "../user/userRepository";
-import jwt from "jsonwebtoken";
+import { Router } from 'express';
 
-const cartRoutes = Router();
+const router = Router();
 
-function getUserId(req: Request): string | null {
-  const auth = req.headers.authorization;
-  if (!auth) return null;
+// Panier en mémoire
+let cart: any[] = [];
 
-  const token = auth.split(" ")[1];
-  try {
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
-    return decoded.id;
-  } catch {
-    return null;
-  }
-}
-
-// GET /api/cart - récupérer le panier
-cartRoutes.get("/", async (req: Request, res: Response) => {
-  const userId = getUserId(req);
-  if (!userId) return res.sendStatus(401);
-
-  const cart = await cartRepository.find({ where: { userId } });
+router.get('/', (req, res) => {
   res.json(cart);
 });
 
-// POST /api/cart - ajouter un set au panier
-cartRoutes.post("/", async (req: Request, res: Response) => {
-  const userId = getUserId(req);
-  if (!userId) return res.sendStatus(401);
+router.post("/", (req, res) => {
+  const { set_num, name, quantity, set_img_url, price } = req.body;
 
-  const { set_num, name, quantity } = req.body;
-  const existing = await cartRepository.findOneBy({ userId, set_num });
-
-  if (existing) {
-    existing.quantity += quantity;
-    await cartRepository.save(existing);
+  const existingItem = cart.find((item) => item.set_num === set_num);
+  if (existingItem) {
+    existingItem.quantity += quantity;
   } else {
-    await cartRepository.save({ userId, set_num, name, quantity });
+    cart.push({ set_num, name, quantity, set_img_url, price });
   }
 
-  const updated = await cartRepository.find({ where: { userId } });
-  res.status(201).json(updated);
+  res.json(cart);
 });
 
-// DELETE /api/cart/:set_num - supprimer un set
-cartRoutes.delete("/:set_num", async (req: Request, res: Response) => {
-  const userId = getUserId(req);
-  if (!userId) return res.sendStatus(401);
-
+router.delete('/:set_num', (req, res) => {
   const { set_num } = req.params;
-  await cartRepository.delete({ userId, set_num });
-
-  const updated = await cartRepository.find({ where: { userId } });
-  res.json(updated);
+  cart = cart.filter((item) => item.set_num !== set_num);
+  res.json(cart);
 });
 
-export default cartRoutes;
+export default router;

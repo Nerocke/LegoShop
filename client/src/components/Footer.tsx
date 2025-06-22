@@ -1,7 +1,7 @@
 export const Footer = () => {
   return (
     <p className="read-the-docs">
-      Click on the Vite and React logos to learn more
+      Un projet réalisé par Kouceyla et Ethan
     </p>
   );
 };

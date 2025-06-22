@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'LegoThick', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -13,28 +13,53 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* LEGO FONT */
+@font-face {
+  font-family: 'LegoThick';
+  src: url('/fonts/LegoThick.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
+.font-lego {
+  font-family: 'LegoThick', sans-serif;
+}
+
+/* Layout */
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  /* 🟢 Suppression du display: flex qui cassait tout */
 }
 
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  /* ❌ Supprime le centrage forcé horizontal si nécessaire : */
+  /* text-align: center; */
+}
+
+/* Links */
+a {
+  font-weight: 500;
+  color: #facc15; /* jaune LEGO */
+  text-decoration: none;
+}
+a:hover {
+  color: #f59e0b;
+}
+
+/* Headings */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
+/* Buttons */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -42,27 +67,69 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #facc15;
+  color: black;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.25s ease;
 }
 button:hover {
-  border-color: #646cff;
+  background-color: #fbbf24;
+  transform: scale(1.05);
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Logo Animation */
+@keyframes bounce-rotate {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+.lego-logo {
+  animation: bounce-rotate 3s infinite ease-in-out;
+}
+
+/* LEGO Style Card */
+.card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2em;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Clean up placeholder elements */
+.read-the-docs {
+  display: none;
+}
+
+/* Light mode overrides */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
-    color: #747bff;
-  }
   button {
-    background-color: #f9f9f9;
+    background-color: #ffcc00;
   }
 }
+
+.button-out-of-stock {
+  background-color: #9ca3af !important; /* gris neutre Tailwind gray-400 */
+  color: white !important;
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+
+.button-out-of-stock:hover {
+  background-color: #9ca3af !important; /* pas de hover différent */
+  transform: none !important;
+}
+

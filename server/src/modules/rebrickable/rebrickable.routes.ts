@@ -1,11 +1,11 @@
-// server/src/modules/rebrickable/rebrickable.routes.ts
+
 import { Router, RequestHandler } from 'express';
 import { RebrickableService }    from './RebrickableService';
 
 const router = Router();
 const service = new RebrickableService();
 
-// Handler typé pour la recherche de sets
+
 const searchSets: RequestHandler = async (req, res, next) => {
     try {
         const data = await service.searchSets(
@@ -19,7 +19,7 @@ const searchSets: RequestHandler = async (req, res, next) => {
     }
 };
 
-// Handler typé pour le détail d’un set
+
 const getSet: RequestHandler<{ setNum: string }> = async (req, res, next) => {
     try {
         const data = await service.getSet(req.params.setNum);
@@ -29,7 +29,7 @@ const getSet: RequestHandler<{ setNum: string }> = async (req, res, next) => {
     }
 };
 
-// Handler typé pour l’import d’un set
+
 const importSet: RequestHandler<{ setNum: string }> = async (req, res, next) => {
     try {
         const product = await service.importSetAsProduct(req.params.setNum);
@@ -44,7 +44,6 @@ const importSet: RequestHandler<{ setNum: string }> = async (req, res, next) => 
     }
 };
 
-// Enregistrement des routes
 router.get('/sets',               searchSets);
 router.get('/sets/:setNum',       getSet);
 router.post('/sets/:setNum/import', importSet);

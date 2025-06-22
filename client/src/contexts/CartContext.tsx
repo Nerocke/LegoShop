@@ -1,75 +1,61 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import axios from "axios";
-import { useAuth } from "./AuthContext";
 
-type CartItem = {
-  id: number;
+export type CartItem = {
   set_num: string;
   name: string;
   quantity: number;
+  set_img_url?: string;
+  price: number; // 🟢 Ajout du prix réel du set (déjà calculé)
 };
 
 type CartContextType = {
   cart: CartItem[];
-  addToCart: (item: { set_num: string; name: string }) => void;
+  addToCart: (item: { set_num: string; name: string; set_img_url?: string; price?: number }) => void;
   removeFromCart: (set_num: string) => void;
+  fetchCart: () => void;
 };
 
-const CartContext = createContext<CartContextType>({
-  cart: [],
-  addToCart: () => {},
-  removeFromCart: () => {},
-});
+const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const { token } = useAuth();
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  // Charger le panier dès qu'on a un token
-  useEffect(() => {
-    if (token) {
-      axios
-        .get("http://localhost:3000/api/cart", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => setCart(res.data))
-        .catch((err) => console.error("Erreur chargement panier", err));
+  const fetchCart = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/cart");
+      setCart(res.data);
+    } catch (err) {
+      console.error("Erreur fetch panier", err);
     }
-  }, [token]);
-
-  // Ajouter un article au panier
-  const addToCart = (item: { set_num: string; name: string }) => {
-    axios
-      .post(
-        "http://localhost:3000/api/cart",
-        { ...item, quantity: 1 },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then((res) => setCart(res.data))
-      .catch((err) => console.error("Erreur ajout panier", err));
   };
 
-  // Supprimer un article du panier
-  const removeFromCart = (set_num: string) => {
-    axios
-      .delete(`http://localhost:3000/api/cart/${set_num}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setCart(res.data))
-      .catch((err) => console.error("Erreur suppression panier", err));
+  const addToCart = async (item: { set_num: string; name: string; set_img_url?: string; price?: number }) => {
+    const res = await axios.post("http://localhost:3000/api/cart", {
+      ...item,
+      quantity: 1,
+    });
+    setCart(res.data);
+  };
+
+  const removeFromCart = async (set_num: string) => {
+    try {
+      const res = await axios.delete(`http://localhost:3000/api/cart/${set_num}`);
+      setCart(res.data);
+    } catch (err) {
+      console.error("Erreur suppression panier", err);
+    }
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
-      {children}
-    </CartContext.Provider>
+      <CartContext.Provider value={{ cart, addToCart, removeFromCart, fetchCart }}>
+        {children}
+      </CartContext.Provider>
   );
 };
 
-export const useCart = () => useContext(CartContext);
+export const useCart = () => {
+  const context = useContext(CartContext);
+  if (!context) throw new Error("useCart must be used within a CartProvider");
+  return context;
+};
