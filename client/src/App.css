@@ -4,7 +4,9 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  /* 👇 NE PAS METTRE DE background ici */
 }
+
 
 /* Intégration de la police LEGO */
 @font-face {
@@ -48,3 +50,15 @@
 .read-the-docs {
   display: none;
 }
+body.home-background::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('../public/assets/Legoland.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: -1;
+}
+

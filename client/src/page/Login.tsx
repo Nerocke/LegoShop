@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../assets/Logo_BrickMorty.png";
+import logo from "../../public/assets/Logo_BrickMorty.png";
 
 // Types
 type FormData = {

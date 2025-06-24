@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Page } from "../components/Page";
 import axios from "axios";
@@ -28,47 +29,61 @@ export const CreateUser = () => {
   });
 
   const navigate = useNavigate();
+  const [successMessage, setSuccessMessage] = useState("");
 
-  // ✅ IMPORTANT : try/catch et console.log pour déboguer
   const onSubmit = handleSubmit(async ({ isAdmin, login, password }) => {
     try {
-      console.log("submit triggered");
       const res = await axios.post("http://localhost:3000/api/users", {
         login,
         password,
         role: isAdmin ? "admin" : "user",
       });
+
       console.log("Created:", res.data);
-      navigate("/users");
+      setSuccessMessage("✅ Compte créé avec succès !");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (err) {
       console.error("Erreur création user", err);
     }
   });
 
   return (
-    <Page title="Create User">
-      <Form onSubmit={onSubmit}>
-        <Form.Group>
-          <Form.Label>Login</Form.Label>
-          <Form.Control placeholder="Enter login" {...register("login")} />
-          {errors.login && <span>{errors.login.message}</span>}
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            {...register("password")}
-          />
-          {errors.password && <span>{errors.password.message}</span>}
-        </Form.Group>
-        <Form.Group>
-          <Form.Check type="checkbox" label="Admin" {...register("isAdmin")} />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
-    </Page>
+      <Page title="Créer un compte" hideNavbar>
+        <Form onSubmit={onSubmit} className="max-w-md mx-auto space-y-4">
+          <Form.Group>
+            <Form.Label>Nom d'utilisateur</Form.Label>
+            <Form.Control placeholder="Ex: brique123" {...register("login")} />
+            {errors.login && (
+                <small className="text-danger">{errors.login.message}</small>
+            )}
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Label>Mot de passe</Form.Label>
+            <Form.Control
+                type="password"
+                placeholder="Minimum 6 caractères"
+                {...register("password")}
+            />
+            {errors.password && (
+                <small className="text-danger">{errors.password.message}</small>
+            )}
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Check type="checkbox" label="Admin" {...register("isAdmin")} />
+          </Form.Group>
+
+          <Button variant="primary" type="submit">
+            S'inscrire
+          </Button>
+
+          {successMessage && (
+              <p className="text-success text-center mt-3">{successMessage}</p>
+          )}
+        </Form>
+      </Page>
   );
 };

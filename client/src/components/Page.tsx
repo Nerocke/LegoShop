@@ -1,17 +1,23 @@
-import { PropsWithChildren } from "react";
-import { Footer } from "./Footer";
+import { ReactNode } from "react";
+import { Navbar } from "./Navbar";
 import { Header } from "./Header";
+import { useLocation } from "react-router-dom";
 
-export type PageProps = {
-  title: string;
+type PageProps = {
+    title: string;
+    children: ReactNode;
+    hideNavbar?: boolean; // ← support optionnel
 };
 
-export const Page = ({ title, children }: PropsWithChildren<PageProps>) => {
-  return (
-    <>
-      <Header title={title} />
-      {children}
-      <Footer />
-    </>
-  );
+export const Page = ({ title, children, hideNavbar }: PageProps) => {
+    const location = useLocation();
+    const isHomePage = location.pathname === "/";
+
+    return (
+        <main>
+            <Header title={title} />
+            {!isHomePage && !hideNavbar && <Navbar />} {/* condition combinée */}
+            <div className="p-4">{children}</div>
+        </main>
+    );
 };

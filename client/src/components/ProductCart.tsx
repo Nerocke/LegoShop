@@ -49,7 +49,10 @@ export const Catalog = () => {
                     );
 
                     const data = Array.isArray(setsRes.data?.results) ? setsRes.data.results : [];
-                    const filtered = data.filter((set: LegoSet) => set.year >= 2010 && set.year <= 2025);
+                    const filtered = data.filter((set: LegoSet) => {
+                        const year = Number(set.year);
+                        return year >= 2015 && year <= 2026;
+                    });
                     allSets = [...allSets, ...filtered];
                     hasNext = setsRes.data.next !== null;
                     page++;
@@ -80,7 +83,10 @@ export const Catalog = () => {
         return matchYear && matchTheme;
     });
 
-    const uniqueYears = Array.from(new Set(sets.map((s) => s.year))).filter(Boolean).sort();
+    const uniqueYears = Array.from(new Set(sets.map((s) => Number(s.year))))
+        .filter((y) => y >= 2015 && y <= 2026)
+        .sort((a, b) => b - a); // tri décroissant
+
     const availableThemeIds = new Set(sets.map((s) => s.theme_id).filter(Boolean));
     const filteredThemes = themes.filter((theme) => availableThemeIds.has(theme.id));
 

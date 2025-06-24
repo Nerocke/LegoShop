@@ -30,10 +30,13 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-image: url('../public/assets/Legoland.jpg'); /* chemin public */
   background-size: cover;
   background-position: center;
-  /* 🟢 Suppression du display: flex qui cassait tout */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
+
 
 #root {
   max-width: 1280px;
@@ -131,5 +134,63 @@ button:focus-visible {
 .button-out-of-stock:hover {
   background-color: #9ca3af !important; /* pas de hover différent */
   transform: none !important;
+}
+
+/* 🟡 Style pour le bouton "Payer" */
+.button-pay {
+  background-color: #16a34a; /* vert LEGO */
+  color: white;
+}
+.button-pay:hover {
+  background-color: #15803d;
+  transform: scale(1.05);
+}
+
+/* 🔴 Style pour le bouton "Annuler" */
+.button-cancel {
+  background-color: #e5e7eb; /* gris clair */
+  color: #1f2937; /* gris foncé */
+}
+.button-cancel:hover {
+  background-color: #d1d5db;
+  transform: scale(1.05);
+}
+
+/* 🔵 Style pour le bouton "Confirmer le paiement" */
+.button-confirm {
+  background-color: #3b82f6; /* bleu LEGO */
+  color: white;
+}
+.button-confirm:hover {
+  background-color: #2563eb;
+  transform: scale(1.05);
+}
+body.home-background::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('../public/assets/Legoland.jpg'); /* remplace par ton image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: -2;
+}
+
+body.home-background::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* voile sombre */
+  z-index: -1;
+}
+
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* overlay */
+  z-index: -1;
 }
 

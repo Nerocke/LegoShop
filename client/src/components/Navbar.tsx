@@ -10,10 +10,9 @@ export const Navbar = () => {
                 <Link to="/">Accueil</Link>
                 <Link to="/catalog">Catalogue</Link>
                 <Link to="/cartpage">Panier</Link>
-                <Link to="/login">Connexion</Link>
                 <Link to="/users">Utilisateurs</Link>
-                <Link to="/createUser">Créer un utilisateur</Link>
-                <Link to="/plop">Plop</Link>
+                <Link to="/login">Déconnexion</Link>
+
             </div>
         </nav>
     );
