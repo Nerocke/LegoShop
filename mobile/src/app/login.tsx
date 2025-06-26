@@ -1,8 +1,17 @@
-// app/login.tsx
 import { useState } from "react";
-import { View, TextInput, Button, Text, Alert } from "react-native";
+import {
+  View,
+  TextInput,
+  Text,
+  Alert,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+} from "react-native";
 import { Redirect } from "expo-router";
 import { useAuth } from "../modules/auth/AuthContext";
+import logo from "../modules/auth/resources/logo-lego.png"; 
 
 export default function LoginScreen() {
   const { user, login } = useAuth();
@@ -10,7 +19,6 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Si déjà connecté, on redirige vers l'accueil
   if (user) return <Redirect href="/" />;
 
   const handleLogin = async () => {
@@ -25,24 +33,80 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={{ flex: 1, padding: 20, justifyContent: "center" }}>
-      <Text style={{ fontSize: 24, marginBottom: 20 }}>Connexion Admin</Text>
+    <SafeAreaView style={styles.container}>
+      {/* ✅ LOGO LEGO */}
+      <Image source={logo} style={styles.logo} resizeMode="contain" />
+
+      <Text style={styles.title}>🔐 Connexion Administrateur</Text>
 
       <TextInput
         placeholder="Login"
         value={loginInput}
         onChangeText={setLogin}
         autoCapitalize="none"
-        style={{ borderBottomWidth: 1, marginBottom: 16 }}
+        style={styles.input}
       />
       <TextInput
         placeholder="Mot de passe"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        style={{ borderBottomWidth: 1, marginBottom: 16 }}
+        style={styles.input}
       />
-      <Button title={loading ? "Connexion..." : "Se connecter"} onPress={handleLogin} />
-    </View>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        <Text style={styles.buttonText}>
+          {loading ? "Connexion..." : "Se connecter"}
+        </Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    justifyContent: "center",
+    backgroundColor: "#f9f9f9",
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    alignSelf: "center",
+    marginBottom: 20,
+    borderRadius: 20,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    marginBottom: 24,
+    textAlign: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    marginBottom: 16,
+    backgroundColor: "#fff",
+    fontSize: 16,
+  },
+  button: {
+    backgroundColor: "#007bff",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 12,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+});

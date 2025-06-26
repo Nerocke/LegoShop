@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Button,
-  Alert,
-  ActivityIndicator,
-} from "react-native";
+import {View,Text,FlatList,Alert,ActivityIndicator,TouchableOpacity,StyleSheet} from "react-native";
 import axios from "axios";
 import { useAuth } from "../modules/auth/AuthContext";
 import { useRouter } from "expo-router";
@@ -28,7 +21,6 @@ export default function UsersScreen() {
       const res = await axios.get(`http://192.168.1.158:3000/api/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      // 🔍 Ne garder que les utilisateurs simples
       setUsers(res.data.filter((u: User) => u.role === "user"));
     } catch (error) {
       console.error("Erreur de chargement :", error);
@@ -63,7 +55,7 @@ export default function UsersScreen() {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={styles.center}>
         <ActivityIndicator size="large" />
         <Text>Chargement des utilisateurs...</Text>
       </View>
@@ -72,42 +64,40 @@ export default function UsersScreen() {
 
   return (
     <View style={{ flex: 1, padding: 20 }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 16 }}>
-        👥 Utilisateurs
-      </Text>
+      <View style={styles.headerButtons}>
+        <TouchableOpacity style={styles.button} onPress={() => router.push("/")}>
+          <Text style={styles.buttonText}>🔙 Retour</Text>
+        </TouchableOpacity>
 
-      {/* ✅ Bouton d’ajout tout en haut */}
-      <View style={{ marginBottom: 20 }}>
-        <Button
-          title="➕ Ajouter un utilisateur"
-          onPress={() => router.push("/new")}
-        />
+        <TouchableOpacity style={styles.button} onPress={() => router.push("/new")}>
+          <Text style={styles.buttonText}>➕ Ajouter</Text>
+        </TouchableOpacity>
       </View>
+
+      <Text style={styles.title}>👥 Utilisateurs</Text>
 
       <FlatList
         data={users}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View
-            style={{
-              padding: 16,
-              borderWidth: 1,
-              borderColor: "#ccc",
-              marginBottom: 12,
-              borderRadius: 8,
-            }}
-          >
-            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-              {item.login}
-            </Text>
-            <Text style={{ color: "#555" }}>ID: {item.id}</Text>
+          <View style={styles.userCard}>
+            <Text style={styles.userLogin}>{item.login}</Text>
+            <Text style={styles.userId}>ID: {item.id}</Text>
 
-            <View style={{ flexDirection: "row", marginTop: 10, gap: 10 }}>
-              <Button
-                title="❌ Supprimer"
-                color="red"
+            <View style={styles.actionRow}>
+              <TouchableOpacity
                 onPress={() => handleDelete(item.id)}
-              />
+                style={[styles.actionBtn, { backgroundColor: "red" }]}
+              >
+                <Text style={styles.actionText}>❌ Supprimer</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => router.push(`/users/${item.id}`)}
+                style={[styles.actionBtn, { backgroundColor: "#2196f3" }]}
+              >
+                <Text style={styles.actionText}>✏️ Modifier</Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -115,3 +105,59 @@ export default function UsersScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 16,
+  },
+  button: {
+    backgroundColor: "#ddd",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+  buttonText: {
+    fontSize: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  userCard: {
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    marginBottom: 12,
+    borderRadius: 8,
+  },
+  userLogin: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  userId: {
+    color: "#555",
+  },
+  actionRow: {
+    flexDirection: "row",
+    marginTop: 10,
+    gap: 10,
+  },
+  actionBtn: {
+    flex: 1,
+    padding: 10,
+    borderRadius: 6,
+    alignItems: "center",
+  },
+  actionText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+});

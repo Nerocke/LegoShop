@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, TextInput, Button, Text, Alert } from "react-native";
+import {View,TextInput,Text,Alert,TouchableOpacity,StyleSheet,SafeAreaView} from "react-native";
 import axios from "axios";
 import { useAuth } from "../modules/auth/AuthContext";
 import { useRouter } from "expo-router";
@@ -39,31 +39,75 @@ export default function CreateUserScreen() {
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 22, marginBottom: 20 }}>➕ Ajouter un utilisateur</Text>
+    <SafeAreaView style={styles.container}>
+        
+      <Text style={styles.title}>➕ Ajouter un utilisateur</Text>
 
       <TextInput
         placeholder="Login"
         value={login}
         onChangeText={setLogin}
-        style={{ borderBottomWidth: 1, marginBottom: 12 }}
+        autoCapitalize="none"
+        style={styles.input}
       />
       <TextInput
         placeholder="Mot de passe"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        style={{ borderBottomWidth: 1, marginBottom: 12 }}
+        style={styles.input}
       />
       <TextInput
         placeholder="Rôle (user ou admin)"
         value={role}
         onChangeText={setRole}
         autoCapitalize="none"
-        style={{ borderBottomWidth: 1, marginBottom: 20 }}
+        style={styles.input}
       />
 
-      <Button title="✅ Créer l'utilisateur" onPress={handleCreate} />
-    </View>
+      <TouchableOpacity style={styles.button} onPress={handleCreate}>
+        <Text style={styles.buttonText}>✅ Créer l'utilisateur</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => router.push("/")}>
+                <Text style={styles.buttonText}>🔙 Retour</Text>
+              </TouchableOpacity>
+    </SafeAreaView>
+    
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: "#f9f9f9",
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    marginBottom: 24,
+    textAlign: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    marginBottom: 16,
+    backgroundColor: "#fff",
+    fontSize: 16,
+  },
+  button: {
+    backgroundColor: "#28a745",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 12,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+});
