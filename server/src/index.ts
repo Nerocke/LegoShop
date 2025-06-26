@@ -8,6 +8,7 @@ import productRoutes from './modules/products/entity/product.routes';
 import { authController } from './modules/auth/authController';
 import userRoutes from './modules/user/user.routes';
 import cartRoutes from './modules/cart/cart.routes';
+import { userController } from './modules/user/userController';
 
 
 async function bootstrap() {
@@ -23,6 +24,7 @@ async function bootstrap() {
   app.use('/api/auth', authController); 
   app.use('/api/users', userRoutes);
   app.use('/api/cart', cartRoutes);
+  app.use('/api/users', userController);
 
 
   const PORT = process.env.PORT || 4000;

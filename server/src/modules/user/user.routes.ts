@@ -3,7 +3,7 @@ import { userRepository } from "./userRepository";
 
 const userRoutes = Router();
 
-// ✅ GET /api/users
+
 userRoutes.get("/", async (req: Request, res: Response): Promise<void> => {
   try {
     const users = await userRepository.find();
@@ -12,10 +12,10 @@ userRoutes.get("/", async (req: Request, res: Response): Promise<void> => {
     console.error("Erreur lors de la récupération des utilisateurs :", error);
     res.status(500).json({ message: "Erreur serveur" });
   }
-}); // ⚠️ BIEN TERMINER AVEC UN ;
+})
 
 
-// ✅ POST /api/users
+
 userRoutes.post("/", async (req: Request, res: Response): Promise<void> => {
   const { login, password, role } = req.body;
 
@@ -38,6 +38,6 @@ userRoutes.post("/", async (req: Request, res: Response): Promise<void> => {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Internal server error" });
   }
-}); // ⚠️ BIEN TERMINER AVEC UN ;
+})
 
 export default userRoutes;
