@@ -7,6 +7,7 @@ import {
 } from "react";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
+import { API_BASE_URL } from "../../config/env";
 
 type User = {
   id: number;
@@ -50,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (login: string, password: string) => {
   try {
-    const res = await axios.post("http://192.168.1.158:3000/api/auth/login", {
+    const res = await axios.post(`${API_BASE_URL}/api/auth/login`, {
       login,
       password,
     });
@@ -87,7 +88,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (storedToken) {
         setTokenState(storedToken);
         try {
-          const res = await axios.get("http://192.168.1.158:3000/api/auth/me", {
+          const res = await axios.get(`${API_BASE_URL}/api/auth/me`, {
             headers: { Authorization: `Bearer ${storedToken}` },
           });
           console.log("🔄 Authenticated as:", res.data.user);

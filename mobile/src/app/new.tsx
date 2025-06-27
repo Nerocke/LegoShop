@@ -3,6 +3,7 @@ import {View,TextInput,Text,Alert,TouchableOpacity,StyleSheet,SafeAreaView} from
 import axios from "axios";
 import { useAuth } from "../modules/auth/AuthContext";
 import { useRouter } from "expo-router";
+import { API_BASE_URL } from "../config/env";
 
 export default function CreateUserScreen() {
   const { token } = useAuth();
@@ -20,7 +21,7 @@ export default function CreateUserScreen() {
 
     try {
       await axios.post(
-        "http://192.168.1.158:3000/api/users",
+        `${API_BASE_URL}/api/users`,
         { login, password, role },
         {
           headers: {

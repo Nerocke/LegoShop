@@ -3,6 +3,7 @@ import {View,Text,FlatList,Alert,ActivityIndicator,TouchableOpacity,StyleSheet} 
 import axios from "axios";
 import { useAuth } from "../modules/auth/AuthContext";
 import { useRouter } from "expo-router";
+import { API_BASE_URL } from "../config/env";
 
 type User = {
   id: number;
@@ -18,7 +19,7 @@ export default function UsersScreen() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get(`http://192.168.1.158:3000/api/users`, {
+      const res = await axios.get(`${API_BASE_URL}/api/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(res.data.filter((u: User) => u.role === "user"));
@@ -37,7 +38,7 @@ export default function UsersScreen() {
         style: "destructive",
         onPress: async () => {
           try {
-            await axios.delete(`http://192.168.1.158:3000/api/users/${id}`, {
+            await axios.delete(`${API_BASE_URL}/api/users/${id}`, {
               headers: { Authorization: `Bearer ${token}` },
             });
             setUsers(users.filter((u) => u.id !== id));

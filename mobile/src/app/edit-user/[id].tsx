@@ -3,6 +3,7 @@ import { View, TextInput, Button, Text, Alert } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import axios from "axios";
 import { useAuth } from "../../modules/auth/AuthContext";
+import { API_BASE_URL } from "../../config/env";
 
 export default function EditUserScreen() {
   const { id } = useLocalSearchParams();
@@ -16,7 +17,7 @@ export default function EditUserScreen() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`http://192.168.1.158:3000/api/users/${id}`, {
+        const res = await axios.get(`${API_BASE_URL}/api/users/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const user = res.data;
@@ -36,7 +37,7 @@ export default function EditUserScreen() {
 
     try {
       await axios.put(
-        `http://192.168.1.158:3000/api/users/${id}`,
+        `${API_BASE_URL}/api/users/${id}`,
         payload,
         {
           headers: { Authorization: `Bearer ${token}` },
