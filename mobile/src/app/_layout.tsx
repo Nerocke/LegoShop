@@ -16,7 +16,6 @@ function ProtectedLayout() {
 
     const isAuthenticated = !!token && !!user;
 
-    // ✅ évite boucle infinie
     if (!isAuthenticated && !isLoginPage) {
       router.replace("/login");
     } else if (isAuthenticated && isLoginPage) {

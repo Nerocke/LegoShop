@@ -40,7 +40,14 @@ export const Login = () => {
         login,
         password,
       });
-      setAuth(response.data.id, response.data.token);
+
+      const { token, user } = response.data;
+
+      console.log("Réponse backend :", response.data);
+
+
+      setAuth(user.id.toString(), token, user.role);
+
       setSuccess(true);
       setTimeout(() => {
         navigate("/catalog");

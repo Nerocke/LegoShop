@@ -1,21 +1,23 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+// src/App.tsx
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+
 import { Home } from "./page/Home";
 import { Plop } from "./page/Plop";
 import { Users } from "./page/Users";
 import { CreateUser } from "./page/CreateUser";
 import { Login } from "./page/Login";
-import { AuthProvider } from "./contexts/AuthContext";
-import { CartProvider } from "./contexts/CartContext";
-import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Catalog } from "./page/Catalog";
 import { CartPage } from "./page/CartPage";
-import { useEffect } from "react";
 
-const AppContent = () => {
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { AuthProvider } from "./contexts/AuthContext";
+import { CartProvider } from "./contexts/CartContext";
+
+const AppRoutes = () => {
     const location = useLocation();
 
     useEffect(() => {
-        // Applique la classe seulement sur la page d'accueil
         if (location.pathname === "/") {
             document.body.classList.add("home-background");
         } else {
@@ -25,7 +27,28 @@ const AppContent = () => {
 
     return (
         <Routes>
+            {/* ✅ Routes publiques */}
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/createUser" element={<CreateUser />} />
+
+            {/* 🔒 Routes protégées */}
+            <Route
+                path="/catalog"
+                element={
+                    <ProtectedRoute>
+                        <Catalog />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/cartpage"
+                element={
+                    <ProtectedRoute>
+                        <CartPage />
+                    </ProtectedRoute>
+                }
+            />
             <Route
                 path="/plop"
                 element={
@@ -34,11 +57,14 @@ const AppContent = () => {
                     </ProtectedRoute>
                 }
             />
-            <Route path="/users" element={<Users />} />
-            <Route path="/createUser" element={<CreateUser />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/catalog" element={<Catalog />} />
-            <Route path="/cartpage" element={<CartPage />} />
+            <Route
+                path="/users"
+                element={
+                    <ProtectedRoute requireAdmin>
+                        <Users />
+                    </ProtectedRoute>
+                }
+            />
         </Routes>
     );
 };
@@ -48,7 +74,7 @@ export const App = () => {
         <AuthProvider>
             <CartProvider>
                 <BrowserRouter>
-                    <AppContent />
+                    <AppRoutes />
                 </BrowserRouter>
             </CartProvider>
         </AuthProvider>

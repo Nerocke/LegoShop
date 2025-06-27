@@ -12,9 +12,9 @@ export const Header = ({ title }: HeaderProps) => {
                 alt="Logo"
                 className="lego-logo"
                 style={{
-                    width: "80px",      // force une largeur max
-                    height: "auto",     // conserve le ratio
-                    maxHeight: "80px",  // évite qu’il soit trop haut
+                    width: "80px",
+                    height: "auto",
+                    maxHeight: "80px",
                 }}
             />
             <h1 className="text-3xl font-lego text-yellow-500 mt-2">{title}</h1>

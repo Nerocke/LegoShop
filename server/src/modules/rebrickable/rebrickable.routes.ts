@@ -35,7 +35,6 @@ const importSet: RequestHandler<{ setNum: string }> = async (req, res, next) => 
         const product = await service.importSetAsProduct(req.params.setNum);
         res.status(201).json(product);
     } catch (err: any) {
-        // Gestion explicite des erreurs 401 de clé invalide
         if (err.status === 401) {
             res.status(401).json({ error: err.message });
             return;

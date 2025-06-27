@@ -19,7 +19,7 @@ export const Home = () => {
             ⚡ Astuce : Vous pouvez rechercher des sets par nom ou filtrer par thème et année.
           </p>
 
-          {/* 🔐 S'inscrire et Connexion */}
+          {}
           <div className="pt-6 flex flex-col items-center space-y-2">
             <Link to="/CreateUser">
               <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded">

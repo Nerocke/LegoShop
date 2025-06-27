@@ -1,44 +1,50 @@
+// src/contexts/AuthContext.tsx
 import {
     createContext,
-    PropsWithChildren,
-    useCallback,
     useContext,
     useState,
-  } from "react";
-  
-  export type AuthContext = {
+    useCallback,
+    PropsWithChildren,
+} from "react";
+
+type AuthContextType = {
     id?: string;
     token?: string;
-    setAuth: (id: string, token: string) => void;
-  };
-  
-  const AuthContext = createContext<AuthContext>({
+    role?: string;
+    setAuth: (id: string, token: string, role: string) => void;
+    logout: () => void;
+};
+
+const AuthContext = createContext<AuthContextType>({
     id: undefined,
     token: undefined,
+    role: undefined,
     setAuth: () => {},
-  });
-  
-  export const AuthProvider = ({ children }: PropsWithChildren) => {
+    logout: () => {},
+});
+
+export const AuthProvider = ({ children }: PropsWithChildren) => {
     const [id, setId] = useState<string>();
     const [token, setToken] = useState<string>();
-  
-    const setAuth = useCallback((id: string, token: string) => {
-      setId(id);
-      setToken(token);
+    const [role, setRole] = useState<string>();
+
+    const setAuth = useCallback((id: string, token: string, role: string) => {
+        setId(id);
+        setToken(token);
+        setRole(role);
     }, []);
-  
+
+    const logout = useCallback(() => {
+        setId(undefined);
+        setToken(undefined);
+        setRole(undefined);
+    }, []);
+
     return (
-      <AuthContext.Provider
-        value={{
-          id,
-          token,
-          setAuth,
-        }}
-      >
-        {children}
-      </AuthContext.Provider>
+        <AuthContext.Provider value={{ id, token, role, setAuth, logout }}>
+            {children}
+        </AuthContext.Provider>
     );
-  };
-  
-  export const useAuth = () => useContext(AuthContext);
-  
+};
+
+export const useAuth = () => useContext(AuthContext);

@@ -6,7 +6,7 @@ export type CartItem = {
   name: string;
   quantity: number;
   set_img_url?: string;
-  price: number; // 🟢 Ajout du prix réel du set (déjà calculé)
+  price: number;
 };
 
 type CartContextType = {

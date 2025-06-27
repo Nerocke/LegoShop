@@ -12,7 +12,6 @@ const loginSchema = Joi.object({
   password: Joi.string().required(),
 })
 
-// ✅ Route de connexion
 authController.post(
   '/login',
   validator.body(loginSchema),

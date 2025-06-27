@@ -208,7 +208,7 @@ export const Catalog = () => {
                                                 set_num: set.set_num,
                                                 name: set.name,
                                                 set_img_url: set.set_img_url,
-                                                price: estimatedPrice, // 🟢 on transmet le prix estimé
+                                                price: estimatedPrice,
                                             });
 
                                             setPopup(`"${set.name}" ajouté au panier.`);

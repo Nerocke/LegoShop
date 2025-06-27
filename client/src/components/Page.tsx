@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 type PageProps = {
     title: string;
     children: ReactNode;
-    hideNavbar?: boolean; // ← support optionnel
+    hideNavbar?: boolean;
 };
 
 export const Page = ({ title, children, hideNavbar }: PageProps) => {
@@ -16,7 +16,7 @@ export const Page = ({ title, children, hideNavbar }: PageProps) => {
     return (
         <main>
             <Header title={title} />
-            {!isHomePage && !hideNavbar && <Navbar />} {/* condition combinée */}
+            {!isHomePage && !hideNavbar && <Navbar />}
             <div className="p-4">{children}</div>
         </main>
     );

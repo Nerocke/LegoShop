@@ -12,7 +12,6 @@ export class Product extends BaseEntity {
     @Column({ type: 'text' })
     description!: string;
 
-    // Stored as string by default; adjust transformer if you need numeric
     @Column({ type: 'decimal', precision: 10, scale: 2 })
     prix!: string;
 

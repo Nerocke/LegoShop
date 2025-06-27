@@ -2,7 +2,6 @@ import { Router } from 'express';
 
 const router = Router();
 
-// Panier en mémoire
 let cart: any[] = [];
 
 router.get('/', (req, res) => {

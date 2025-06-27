@@ -110,7 +110,7 @@ userController.delete(
     const id = Number(req.params.id);
     try {
       await userRepository.delete(id);
-      res.sendStatus(204); // No Content
+      res.sendStatus(204);
     } catch (err: any) {
       res.status(400).send({
         error: err.message,

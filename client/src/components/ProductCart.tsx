@@ -85,7 +85,7 @@ export const Catalog = () => {
 
     const uniqueYears = Array.from(new Set(sets.map((s) => Number(s.year))))
         .filter((y) => y >= 2015 && y <= 2026)
-        .sort((a, b) => b - a); // tri décroissant
+        .sort((a, b) => b - a);
 
     const availableThemeIds = new Set(sets.map((s) => s.theme_id).filter(Boolean));
     const filteredThemes = themes.filter((theme) => availableThemeIds.has(theme.id));

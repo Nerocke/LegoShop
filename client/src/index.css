@@ -13,7 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* LEGO FONT */
 @font-face {
   font-family: 'LegoThick';
   src: url('/fonts/LegoThick.ttf') format('truetype');
@@ -25,12 +24,11 @@
   font-family: 'LegoThick', sans-serif;
 }
 
-/* Layout */
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-image: url('../public/assets/Legoland.jpg'); /* chemin public */
+  background-image: url('../public/assets/Legoland.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -42,27 +40,22 @@ body {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  /* ❌ Supprime le centrage forcé horizontal si nécessaire : */
-  /* text-align: center; */
 }
 
-/* Links */
 a {
   font-weight: 500;
-  color: #facc15; /* jaune LEGO */
+  color: #facc15;
   text-decoration: none;
 }
 a:hover {
   color: #f59e0b;
 }
 
-/* Headings */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
-/* Buttons */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -100,7 +93,6 @@ button:focus-visible {
   animation: bounce-rotate 3s infinite ease-in-out;
 }
 
-/* LEGO Style Card */
 .card {
   background: #fff;
   border-radius: 1rem;
@@ -108,12 +100,10 @@ button:focus-visible {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Clean up placeholder elements */
 .read-the-docs {
   display: none;
 }
 
-/* Light mode overrides */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -125,20 +115,19 @@ button:focus-visible {
 }
 
 .button-out-of-stock {
-  background-color: #9ca3af !important; /* gris neutre Tailwind gray-400 */
+  background-color: #9ca3af !important;
   color: white !important;
   cursor: not-allowed;
   pointer-events: auto;
 }
 
 .button-out-of-stock:hover {
-  background-color: #9ca3af !important; /* pas de hover différent */
+  background-color: #9ca3af !important;
   transform: none !important;
 }
 
-/* 🟡 Style pour le bouton "Payer" */
 .button-pay {
-  background-color: #16a34a; /* vert LEGO */
+  background-color: #16a34a;
   color: white;
 }
 .button-pay:hover {
@@ -146,17 +135,16 @@ button:focus-visible {
   transform: scale(1.05);
 }
 
-/* 🔴 Style pour le bouton "Annuler" */
 .button-cancel {
-  background-color: #e5e7eb; /* gris clair */
-  color: #1f2937; /* gris foncé */
+  background-color: #e5e7eb;
+  color: #1f2937;
 }
 .button-cancel:hover {
   background-color: #d1d5db;
   transform: scale(1.05);
 }
 
-/* 🔵 Style pour le bouton "Confirmer le paiement" */
+
 .button-confirm {
   background-color: #3b82f6; /* bleu LEGO */
   color: white;
@@ -169,7 +157,7 @@ body.home-background::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url('../public/assets/Legoland.jpg'); /* remplace par ton image */
+  background-image: url('../public/assets/Legoland.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -181,7 +169,7 @@ body.home-background::after {
   content: "";
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* voile sombre */
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: -1;
 }
 
@@ -190,7 +178,7 @@ body::after {
   content: "";
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.4); /* overlay */
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: -1;
 }
 

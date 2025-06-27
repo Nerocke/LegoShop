@@ -1,9 +1,24 @@
-import { PropsWithChildren } from "react";
+// src/components/ProtectedRoute.tsx
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { Login } from "../page/Login";
+import { PropsWithChildren } from "react";
 
-export const ProtectedRoute = ({ children }: PropsWithChildren) => {
-  const { token } = useAuth();
+type ProtectedRouteProps = {
+  requireAdmin?: boolean;
+} & PropsWithChildren;
 
-  return token ? children : <Login />;
+export const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps) => {
+  const { token, role } = useAuth();
+
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+
+  if (requireAdmin && role !== "admin") {
+    return <Navigate to="/" replace />;
+  }
+
+  return <>{children}</>;
 };
